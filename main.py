@@ -6,6 +6,15 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+    
+    def rate_lec(self, lectorer, course, grade):
+        if isinstance(lectorer, Lectorer) and course in self.courses_in_progress and course in lectorer.courses_attached:
+            if course in lectorer.grades:
+                lectorer.grades[course] += [grade]
+            else:
+                lectorer.grades[course] = [grade]
+        else:
+            return 'Ошибка'
         
 class Mentor:
     def __init__(self, name, surname):
@@ -13,6 +22,13 @@ class Mentor:
         self.surname = surname
         self.courses_attached = []
         
+
+class Lectorer(Mentor):
+    def __init__(self):
+        self.courses = []
+        self.grades = {}
+
+class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
             if course in student.grades:
@@ -21,12 +37,6 @@ class Mentor:
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
-
-class Lectorer(Mentor):
-    pass
-
-class Reviewer(Mentor):
-    pass
  
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python']
