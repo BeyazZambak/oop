@@ -3,8 +3,8 @@ class Student:
         self.name = name
         self.surname = surname
         self.gender = gender
-        self.finished_courses = ['Введение в программирование']
-        self.courses_in_progress = ['Python', 'Git']
+        self.finished_courses = []
+        self.courses_in_progress = []
         self.grades = {}
     
     def rate_lec(self, lectorer, course, grade):
@@ -20,7 +20,7 @@ class Student:
         res = []
         for values in self.grades.values():
             res += values
-        rating = sum(values) / len(res)
+        rating = sum(res) / len(res)
         return rating
 
     def __str__(self):
@@ -42,16 +42,19 @@ class Mentor:
     def __init__(self, name, surname):
         self.name = name
         self.surname = surname
-        self.courses_attached = ['Python']
+        self.courses_attached = []
         
 
 class Lectorer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
-        self.grades = {'Python': 10, 'Pytho': 9,'Pyth': 10}
+        self.grades = {}
 
     def rating(self):
-        rating = sum(self.grades.values()) / len(self.grades.values())
+        values = []
+        for value in self.grades.values():
+            values += value
+        rating = sum(values) / len(values)
         return rating
     
     def __str__(self):
@@ -79,20 +82,39 @@ class Reviewer(Mentor):
         res = f'Имя: {self.name}\nФамилия: {self.surname}'
         return res
 
-
-some_reviewer = Reviewer('Some', 'Buddy')
-print(some_reviewer)
-
-some_lecturer = Lectorer('Some', 'Buddy')
-print(some_lecturer)
-
-some_student = Student('Ruoy', 'Eman', 'something')
-print(some_student)
-
 daniil = Student("Daniil", "Any","something")
 anna = Student("Anna", "Any","something")
-jan = Reviewer("Jan", "Krd")
-Reviewer.rate_hw(jan, daniil, 'Python', 6)
-Reviewer.rate_hw(jan, anna, 'Python', 10)
+djan = Reviewer("Djan", "Krd")
+jan_darm = Reviewer("Jan", "Darm")
+maga_lector = Lectorer("Maga", "Lector")
+mega_lodon = Lectorer("Mega", "Lodon")
+
+maga_lector.courses_attached.append('Git')
+mega_lodon.courses_attached.append('Java')
+daniil.finished_courses.append('Python')
+daniil.courses_in_progress = ['Введение в программирование', 'Git', 'Java']
+djan.courses_attached.append('Git')
+jan_darm.courses_attached.append('Git')
+anna.finished_courses.append('Введение в программирование')
+anna.courses_in_progress = ['Python', 'Git', 'Java']
+
+daniil.rate_lec(maga_lector, 'Git', 8)
+daniil.rate_lec(mega_lodon, 'Java', 10)
+anna.rate_lec(maga_lector, 'Git', 4)
+anna.rate_lec(mega_lodon, 'Java', 7)
+
+djan.rate_hw(daniil, 'Git', 10)
+djan.rate_hw(anna, 'Git', 8)
+
+maga_lector.rating()
+mega_lodon.rating()
+print(maga_lector > mega_lodon)
+print(mega_lodon > maga_lector)
 print(daniil > anna)
 print(daniil < anna)
+print(daniil)
+print(anna)
+print(djan)
+print(jan_darm)
+print(maga_lector)
+print(mega_lodon)
